@@ -54,7 +54,7 @@ visual list of recorded sessions using a modern RecyclerView interface.
 git clone https://github.com/serxa92/FitApp.git
 ```
 2. Open the project in Android Studio
-3. 
+
 3. Build and run on an emulator or real device
-4. 
+
 4. Accept GPS permissions when prompted
