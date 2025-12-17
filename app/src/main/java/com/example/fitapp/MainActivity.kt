@@ -1,5 +1,6 @@
 package com.example.fitapp
 
+//Imports
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -26,55 +27,61 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var launcher: ActivityResultLauncher<Intent>
 
-
+    //Creamos la actividad
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Configurar RecyclerView
+        // Configuramos RecyclerView
         recyclerView = findViewById(R.id.recyclerViewActividades)
         adapter = SesionAdapter(listaSesiones)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
 
-        // Configurar UI
+        // Configuramos UI y listeners
         val actividades = listOf("Caminar", "Correr", "Bicicleta")
         val spinner = findViewById<Spinner>(R.id.spinnerActividad)
         val numberPicker = findViewById<NumberPicker>(R.id.numberPickerDuracion)
         val btnGuardar = findViewById<Button>(R.id.btnGuardarActividad)
         val btnRealTime = findViewById<Button>(R.id.btnIrASesionTiempoReal)
-
+        // Configuramos el adaptador del Spinner
         val spinnerAdapter = ArrayAdapter(
-            this,
-            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-            actividades
+            this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, actividades
         )
         spinner.adapter = spinnerAdapter
-
+        // Configuramos el valor mínimo y máximo del numberPicker
         numberPicker.minValue = 1
         numberPicker.maxValue = 180
         numberPicker.value = 30
         numberPicker.wrapSelectorWheel = true
 
+        //Listener para el botón de guardar
         btnGuardar.setOnClickListener {
+            //Si el spinner no está vacío, creamos una nueva sesión
             val actividadSeleccionada = spinner.selectedItem?.toString() ?: ""
+            //La duración la cogemos del numberPicker
             val duracion = numberPicker.value
-
+            //Si la actividad no está vacía, creamos una nueva sesión
             if (actividadSeleccionada.isNotEmpty()) {
+                //Pasamos la fecha y hora actual
                 val fechaHora =
                     SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(Date())
+                //Creamos la nueva sesión
                 val nuevaSesion = ActivitySession(actividadSeleccionada, duracion, fechaHora)
 
-                // ✅ Añadir a la lista y actualizar RecyclerView
+                // Añadimos la nueva sesión a la lista y actualizamos el RecyclerView
                 listaSesiones.add(nuevaSesion)
+                // Notificamos al adaptador que se ha insertado un nuevo elemento,
                 adapter.notifyItemInserted(listaSesiones.size - 1)
-
+                //Lanzamos un toast para notificar que la actividad se ha guardado
                 Toast.makeText(this, "Actividad guardada", Toast.LENGTH_SHORT).show()
             } else {
+                //Si no está seleccionada ninguna actividad, mostramos un toast para notificarlo
                 Toast.makeText(this, "Selecciona una actividad", Toast.LENGTH_SHORT).show()
             }
         }
 
+        //El launcher se encarga de recibir la actividad en tiempo real y añadirla a la lista
         launcher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == RESULT_OK) {
@@ -87,7 +94,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-
+        //Lanzamos la actividad en tiempo real al pulsar el botón
         btnRealTime.setOnClickListener {
             val actividadSeleccionada = spinner.selectedItem?.toString() ?: ""
             if (actividadSeleccionada.isNotEmpty()) {

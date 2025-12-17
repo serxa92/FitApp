@@ -1,5 +1,5 @@
 package com.example.fitapp
-
+//Imports
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -28,7 +28,7 @@ import java.util.Locale
 
 class RealTimeActivity : AppCompatActivity() {
 
-    // Sensores y ubicación
+    // Sensores, acelerómetro y GPS
     private lateinit var sensorManager: SensorManager
     private var acelerometro: Sensor? = null
     private lateinit var acelerometroListener: SensorEventListener
@@ -59,22 +59,22 @@ class RealTimeActivity : AppCompatActivity() {
         }
     }
 
-
+    //Creamos la actividad con los sensores y el UI
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_real_time)
 
-        // Recuperar elementos UI
+        // Recuperamos elementos UI
         val btnFinalizar = findViewById<Button>(R.id.btnFinalizarSesion)
         val iconoImageView = findViewById<ImageView>(R.id.ivIconoActividad)
         movimientoTextView = findViewById(R.id.tvMovimientoEstado)
         latitudTextView = findViewById(R.id.tvLatitud)
         longitudTextView = findViewById(R.id.tvLongitud)
 
-        // Recuperar la actividad pasada por intent
+        // Recuperamos la actividad pasada por intent
         val actividad = intent.getStringExtra("actividad")
 
-        // Mostrar icono según la actividad
+        // Mostramos icono según la actividad
         val iconoResId = when (actividad) {
             "Caminar" -> R.drawable.caminar
             "Correr" -> R.drawable.correr
@@ -86,7 +86,7 @@ class RealTimeActivity : AppCompatActivity() {
         }
 
         val cronometro = findViewById<Chronometer>(R.id.chronometer)
-        // Guarda el tiempo inicial
+        // Guardamos el tiempo inicial
         cronometro.base = SystemClock.elapsedRealtime()
         // Listener para actualizar el formato del cronómetro
         cronometro.setOnChronometerTickListener {
@@ -99,7 +99,7 @@ class RealTimeActivity : AppCompatActivity() {
             cronometro.text = String.format("%02d:%02d:%02d", horas, minutos, segundos)
         }
 
-        // Iniciar el cronómetro
+        // Iniciamos el cronómetro
         cronometro.start()
 
 
@@ -119,33 +119,35 @@ class RealTimeActivity : AppCompatActivity() {
             finish()
         }
 
-        // Inicializar sensores
+        // Inicializamos sensores
         sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
         acelerometro = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-
+        // Listener para el acelerómetro
         acelerometroListener = object : SensorEventListener {
             override fun onSensorChanged(event: SensorEvent?) {
                 event?.let {
                     val x = it.values[0]
                     val y = it.values[1]
                     val z = it.values[2]
-
+                    // Calculamos la fuerza de movimiento, comparamos con la gravedad y mostramos el estado
                     val fuerzaMovimiento = Math.sqrt((x * x + y * y + z * z).toDouble()).toFloat()
                     val GRAVEDAD = SensorManager.GRAVITY_EARTH
                     val diferencia = kotlin.math.abs(fuerzaMovimiento - GRAVEDAD)
-
+                    // Dependiendo de la diferencia, mostramos el estado de movimiento
                     val texto = when {
                         diferencia < 0.5 -> "Sin movimiento"
                         diferencia < 3 -> "Movimiento suave"
                         else -> "Movimiento sexy"
                     }
+                    // Actualizamos el TextView
                     movimientoTextView.text = texto
                 }
             }
-
+            //Esto es necesario para implementar la interfaz, pero no se usa en este caso
             override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
         }
 
+        //Registramos el acelerómetro con el sensorManager
         acelerometro?.let {
             sensorManager.registerListener(
                 acelerometroListener,
@@ -154,11 +156,12 @@ class RealTimeActivity : AppCompatActivity() {
             )
         }
 
-        // Inicializar GPS
+        // Inicializamos GPS
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
         checkLocationPermission()
     }
 
+    //Concedemos el permiso de ubicación
     private fun checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
             != PackageManager.PERMISSION_GRANTED
@@ -172,20 +175,23 @@ class RealTimeActivity : AppCompatActivity() {
             startLocationUpdates()
         }
     }
-
+    //Comprobamos el permiso de ubicación, si no está concedido, lo solicitamos
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
+
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 100 && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             startLocationUpdates()
         } else {
+            //Si no está concedido, mostramos un toast para notificarlo
             Toast.makeText(this, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show()
         }
     }
 
+    //Comenzamos a actualizar la ubicación
     @SuppressLint("MissingPermission")
     private fun startLocationUpdates() {
         locationListener = object : LocationListener {
@@ -193,9 +199,11 @@ class RealTimeActivity : AppCompatActivity() {
                 val lat = location.latitude
                 val lon = location.longitude
 
+                //Pasamos la latitud y longitud a los TextView
                 latitudTextView.text = lat.toString()
                 longitudTextView.text = lon.toString()
 
+                //Mostramos un toast para notificar que el GPS está activo
                 if (isFirstLocation) {
                     Toast.makeText(
                         this@RealTimeActivity,
@@ -207,14 +215,16 @@ class RealTimeActivity : AppCompatActivity() {
             }
         }
 
+        //Comenzamos a actualizar la ubicación, cada 2 segundos y con una distancia mínima de 1 metro
         locationManager.requestLocationUpdates(
             LocationManager.GPS_PROVIDER,
-            3000L,
+            2000L,
             1f,
             locationListener
         )
     }
 
+    //Pausamos el sensor al salir de la actividad
     override fun onPause() {
         super.onPause()
         sensorManager.unregisterListener(acelerometroListener)

@@ -13,21 +13,22 @@
 
         <ImageView
             android:id="@+id/logoImageView"
-            android:layout_width="139dp"
-            android:layout_height="130dp"
+            android:layout_width="185dp"
+            android:layout_height="134dp"
             android:layout_gravity="center"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="28dp"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/logo_fitapp" />
+            android:src="@drawable/correr" />
 
         <TextView
             android:id="@+id/tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="¿Qué quieres hacer hoy?"
+            android:text="¡Bienvenido a FitApp!"
             android:textColor="@color/black"
-            android:textSize="45sp" />
+            android:textSize="45sp"
+            android:layout_marginBottom="50dp"/>
 
         <TextView
             android:id="@+id/tvElige"
@@ -41,26 +42,29 @@
         <Spinner
             android:id="@+id/spinnerActividad"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="46dp"
             android:layout_marginTop="8dp"
             android:prompt="@string/elige_actividad"
             android:spinnerMode="dropdown" />
 
         <TextView
             android:id="@+id/tvDuracion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="207dp"
+            android:layout_height="46dp"
+            android:layout_marginTop="16dp"
             android:text="Duración (minutos):"
             android:textColor="@color/black"
-            android:textSize="20sp"
-            android:layout_marginTop="16dp" />
+            android:textSize="20sp" />
 
         <NumberPicker
             android:id="@+id/numberPickerDuracion"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="73dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:background="@color/white"
+            android:max="180"
+            android:min="1"/>
 
         <Button
             android:id="@+id/btnGuardarActividad"
