@@ -17,6 +17,16 @@ Aplicación Android desarrollada en Kotlin que permite registrar sesiones de act
 
 ---
 
+## 📸 Preview
+
+<div style="display: flex; gap: 10px;">
+  <img src="/Screenshots/Screenshot1.png" alt="Screenshot 1" width="180"/>
+  <img src="/Screenshots/Screenshot2.png" alt="Screenshot 2" width="180"/>
+    <img src="/Screenshots/Screenshot3.png" alt="Screenshot 3" width="180"/>
+    <img src="/Screenshots/Screenshot4.png" alt="Screenshot 4" width="180"/>
+    <img src="/Screenshots/Screenshot5.png" alt="Screenshot 5" width="180"/>
+</div>
+
 ## 🛠️ Tecnologías usadas
 
 - Kotlin
