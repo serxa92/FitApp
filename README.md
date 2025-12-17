@@ -1,19 +1,21 @@
-# 🏃‍♂️ FitApp – Actividad Física y Sensores
+# 🏃‍♂️ FitApp – Physical Activity & Sensors
 
-Aplicación Android desarrollada en Kotlin que permite registrar sesiones de actividad física y utilizar sensores del dispositivo como el acelerómetro y el GPS.
+FitApp is an Android application built with Kotlin that allows users to track and register their
+physical activities using device sensors such as the accelerometer and GPS. The app also provides a
+visual list of recorded sessions using a modern RecyclerView interface.
 
 ---
 
-## 📱 Funcionalidades
+## 📱 Features
 
-- Registro manual de actividades (Caminar, Correr, Bicicleta).
-- Visualización de sesiones registradas mediante un `RecyclerView`.
-- Registro de actividad en tiempo real:
-    - Detección de movimiento usando el **acelerómetro**.
-    - Geolocalización con **GPS**.
-    - **Cronómetro** en tiempo real durante la sesión.
-- Finalizar sesión guarda automáticamente la actividad con duración y hora.
-- Diseño adaptado a dispositivos móviles con interfaz sencilla y clara.
+- Register different types of physical activity: **Walking, Running, Cycling**.
+- Choose duration manually or track it in real time
+- Live session with:
+  - Real-time motion detection using the **accelerometer**.
+  - **GPS tracking** with live latitude and longitude display
+  - A **chronometer** to measure session duration
+- Save and display each session in a **RecyclerView**.
+- **Light**, **clean user interface** with responsive feedback.
 
 ---
 
@@ -26,22 +28,33 @@ Aplicación Android desarrollada en Kotlin que permite registrar sesiones de act
     <img src="/Screenshots/Screenshot5.png" alt="Screenshot 5" width="170"/>
 </div>
 
-## 🛠️ Tecnologías usadas
+## 🛠️ Technologies Used
 
 - Kotlin
+
 - Android SDK
+
 - RecyclerView + ViewHolder
-- Sensores: Acelerómetro, GPS
-- Intents y navegación entre pantallas
-- Permisos en tiempo de ejecución
-- UI con XML
+
+- Sensors: Accelerometer, GPS
+
+- Intents & navigation between Activities
+
+- Runtime permissions
+
+- UI using XML layouts
 
 ---
 
+## 🚀 How to Run
 
-## 🚀 Cómo ejecutar
-
-1. Clona el repositorio:
+1. Clone the repository:
 
 ```bash
 git clone https://github.com/serxa92/FitApp.git
+```
+2. Open the project in Android Studio
+3. 
+3. Build and run on an emulator or real device
+4. 
+4. Accept GPS permissions when prompted
