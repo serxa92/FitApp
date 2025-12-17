@@ -1,0 +1,38 @@
+# 🏃‍♂️ FitApp – Actividad Física y Sensores
+
+Aplicación Android desarrollada en Kotlin que permite registrar sesiones de actividad física y utilizar sensores del dispositivo como el acelerómetro y el GPS.
+
+---
+
+## 📱 Funcionalidades
+
+- Registro manual de actividades (Caminar, Correr, Bicicleta).
+- Visualización de sesiones registradas mediante un `RecyclerView`.
+- Registro de actividad en tiempo real:
+    - Detección de movimiento usando el **acelerómetro**.
+    - Geolocalización con **GPS**.
+    - **Cronómetro** en tiempo real durante la sesión.
+- Finalizar sesión guarda automáticamente la actividad con duración y hora.
+- Diseño adaptado a dispositivos móviles con interfaz sencilla y clara.
+
+---
+
+## 🛠️ Tecnologías usadas
+
+- Kotlin
+- Android SDK
+- RecyclerView + ViewHolder
+- Sensores: Acelerómetro, GPS
+- Intents y navegación entre pantallas
+- Permisos en tiempo de ejecución
+- UI con XML
+
+---
+
+
+## 🚀 Cómo ejecutar
+
+1. Clona el repositorio:
+
+```bash
+git clone https://github.com/serxa92/FitApp.git
