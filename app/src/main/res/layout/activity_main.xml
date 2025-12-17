@@ -1,76 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/fondo_gradiente"
-    android:orientation="vertical"
-    android:padding="20dp">
+    android:fillViewport="true">
 
-    <ImageView
-        android:id="@+id/logoImageView"
-        android:layout_width="166dp"
-        android:layout_height="156dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="24dp"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/logo_fitapp" />
-
-
-    <TextView
-        android:id="@+id/tv"
-        android:layout_width="match_parent"
-        android:layout_height="146dp"
-        android:gravity="center"
-        android:text="¿Qué quieres hacer hoy?"
-        android:textColor="@color/black"
-        android:textSize="45sp" />
-
-
-    <TextView
-        android:id="@+id/tvElige"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:gravity="left"
-        android:text="Elige una actividad:"
-        android:textColor="@color/black"
-        android:textSize="20sp" />
-
-    <Spinner
-        android:id="@+id/spinnerActividad"
-        android:layout_width="match_parent"
-        android:layout_height="79dp"
-        android:dropDownHorizontalOffset="10dp"
-        android:dropDownVerticalOffset="60dp"
-        android:layout_marginTop="12dp"
-        android:prompt="@string/elige_actividad"
-        android:spinnerMode="dropdown"/>
-
-    <TextView
-        android:id="@+id/tvDuracion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Duración (minutos):"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:layout_marginTop="16dp" />
-
-
-    <NumberPicker
-        android:id="@+id/numberPickerDuracion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_gravity="center_horizontal" />
-    <Button
-        android:id="@+id/btnGuardarActividad"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Guardar actividad"
-        android:textAllCaps="false"
-        android:layout_marginTop="24dp"
-        android:backgroundTint="@color/white"
-        android:textColor="@color/black"/>
+        android:orientation="vertical"
+        android:background="@drawable/fondo_gradiente"
+        android:padding="20dp">
+
+        <ImageView
+            android:id="@+id/logoImageView"
+            android:layout_width="139dp"
+            android:layout_height="130dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/logo_fitapp" />
+
+        <TextView
+            android:id="@+id/tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="¿Qué quieres hacer hoy?"
+            android:textColor="@color/black"
+            android:textSize="45sp" />
+
+        <TextView
+            android:id="@+id/tvElige"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Elige una actividad:"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:layout_marginTop="12dp"/>
+
+        <Spinner
+            android:id="@+id/spinnerActividad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:prompt="@string/elige_actividad"
+            android:spinnerMode="dropdown" />
+
+        <TextView
+            android:id="@+id/tvDuracion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Duración (minutos):"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:layout_marginTop="16dp" />
+
+        <NumberPicker
+            android:id="@+id/numberPickerDuracion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/btnGuardarActividad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Guardar actividad"
+            android:textAllCaps="false"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/black" />
+        <Button
+            android:id="@+id/btnIrASesionTiempoReal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Registrar actividad en tiempo real"
+            android:textAllCaps="false"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/black" />
 
 
-
-</LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewActividades"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="8dp" />
+    </LinearLayout>
+</ScrollView>

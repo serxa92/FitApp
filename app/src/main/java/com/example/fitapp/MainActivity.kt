@@ -1,83 +1,106 @@
 package com.example.fitapp
-//IMPORTS
+
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.NumberPicker
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 
 class MainActivity : AppCompatActivity() {
-    //Creamos el metodo onCreate
+
+    // Variables para el RecyclerView y la lista
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: SesionAdapter
+    private val listaSesiones = mutableListOf<ActivitySession>()
+
+    private lateinit var launcher: ActivityResultLauncher<Intent>
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        //Llamamos al metodo onCreate de la clase padre
         super.onCreate(savedInstanceState)
-        //Aqui le decimos que layout queremos usar
         setContentView(R.layout.activity_main)
 
-        //VARIABLES
+        // Configurar RecyclerView
+        recyclerView = findViewById(R.id.recyclerViewActividades)
+        adapter = SesionAdapter(listaSesiones)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = adapter
 
-        //Actividades con las diferentes opciones
+        // Configurar UI
         val actividades = listOf("Caminar", "Correr", "Bicicleta")
-        //Spinner para el selector de actividades
         val spinner = findViewById<Spinner>(R.id.spinnerActividad)
-        //numberPicker para la duracion
         val numberPicker = findViewById<NumberPicker>(R.id.numberPickerDuracion)
-        //btnGuardar para el boton
         val btnGuardar = findViewById<Button>(R.id.btnGuardarActividad)
+        val btnRealTime = findViewById<Button>(R.id.btnIrASesionTiempoReal)
 
-        //Configuramos el adaptador para el Spinner, this para el contexto de la actividad, el layout
-        //y el objeto sobre el que queremos trabajar
-        val adapter = ArrayAdapter(
+        val spinnerAdapter = ArrayAdapter(
             this,
             androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
             actividades
         )
+        spinner.adapter = spinnerAdapter
 
-        // Configuramos el adaptador para el Spinner
-        adapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)
-        spinner.adapter = adapter
-
-        // Configuración del NumberPicker
         numberPicker.minValue = 1
         numberPicker.maxValue = 180
         numberPicker.value = 30
         numberPicker.wrapSelectorWheel = true
 
-        //Listener para guardar la actividad
         btnGuardar.setOnClickListener {
-            // Obtenemos la actividad seleccionada y la duracion
             val actividadSeleccionada = spinner.selectedItem?.toString() ?: ""
             val duracion = numberPicker.value
-            //Si la actividad no esta vacia, guardamos la actividad
+
             if (actividadSeleccionada.isNotEmpty()) {
                 val fechaHora =
-                    java.text.SimpleDateFormat("dd/MM/yyyy HH:mm", java.util.Locale.getDefault())
-                        .format(java.util.Date())
-                ActivitySession(actividadSeleccionada, duracion, fechaHora)
+                    SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(Date())
+                val nuevaSesion = ActivitySession(actividadSeleccionada, duracion, fechaHora)
 
-                // Mostramos un mensaje de confirmación
+                // ✅ Añadir a la lista y actualizar RecyclerView
+                listaSesiones.add(nuevaSesion)
+                adapter.notifyItemInserted(listaSesiones.size - 1)
+
                 Toast.makeText(this, "Actividad guardada", Toast.LENGTH_SHORT).show()
-
-
             } else {
-                // Mostramos un mensaje de error
                 Toast.makeText(this, "Selecciona una actividad", Toast.LENGTH_SHORT).show()
             }
         }
 
-    }//Oncreate
+        launcher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == RESULT_OK) {
+                    val nuevaSesion =
+                        result.data?.getParcelableExtra("nuevaSesion", ActivitySession::class.java)
+                    nuevaSesion?.let {
+                        listaSesiones.add(it)
+                        adapter.notifyItemInserted(listaSesiones.size - 1)
+                    }
+                }
+            }
 
-    //Creamos la clase para guardar las sesiones
-    data class ActivitySession(
-        val nombre: String,
-        val duracion: Int,
-        val fechaHora: String
-    )
+
+        btnRealTime.setOnClickListener {
+            val actividadSeleccionada = spinner.selectedItem?.toString() ?: ""
+            if (actividadSeleccionada.isNotEmpty()) {
+                val intent = Intent(this, RealTimeActivity::class.java)
+                intent.putExtra("actividad", actividadSeleccionada)
+                launcher.launch(intent)
+            } else {
+                Toast.makeText(this, "Selecciona una actividad primero", Toast.LENGTH_SHORT).show()
+            }
+        }
 
 
-}//class
+    }//onCreate
 
 
+}
