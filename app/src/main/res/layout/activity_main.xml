@@ -13,8 +13,8 @@
 
         <ImageView
             android:id="@+id/logoImageView"
-            android:layout_width="185dp"
-            android:layout_height="134dp"
+            android:layout_width="172dp"
+            android:layout_height="143dp"
             android:layout_gravity="center"
             android:layout_marginTop="28dp"
             android:contentDescription="@string/app_name"
@@ -24,11 +24,11 @@
             android:id="@+id/tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp"
             android:gravity="center"
             android:text="¡Bienvenido a FitApp!"
             android:textColor="@color/black"
-            android:textSize="45sp"
-            android:layout_marginBottom="50dp"/>
+            android:textSize="45sp" />
 
         <TextView
             android:id="@+id/tvElige"
